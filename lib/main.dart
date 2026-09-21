@@ -39,14 +39,21 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-        centerTitle: true,
+        title: TextField(
+          decoration: const InputDecoration(
+            hintText: 'Rechercher...',
+            prefixIcon: Icon(Icons.person_search),
+            border: InputBorder.none,
+            suffixIcon: Icon(Icons.check_rounded),
+          ),
+        ),
       ),
+
       body: Center(
         child: Column(
 
           children: <Widget>[
-            const Text('Search for a student or staff information :'),
+            const Text('Search for a 42 intra profile information'),
           ],
         ),
       ),
