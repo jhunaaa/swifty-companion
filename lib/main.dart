@@ -46,7 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: TextField(
           controller: _searchController,
-          onSubmitted: (value) {
+          onSubmitted: (value) async {
+            final text = _searchController.text.trim();
+            errorMessage = await getProfile(text, context);
             setState(() {
               searchValue = value;
             });
