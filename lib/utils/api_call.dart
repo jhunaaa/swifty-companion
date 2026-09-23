@@ -2,7 +2,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:swifty_companion/profile.dart';
 
 var token = "";
 
@@ -26,7 +27,7 @@ Future<bool> getToken() async {
   return (false);
 }
 
-Future<String> getProfile(String name) async {
+Future<String> getProfile(String name, BuildContext context) async {
   if (name.isEmpty) {
     return ("No name entered");
   } else {
@@ -36,7 +37,6 @@ Future<String> getProfile(String name) async {
       if (errorToken) {
         return ("Error, couldn't get a new token");
       }
-      return ("got a new token ! : $token");
     }
     final uri = Uri.parse("https://api.intra.42.fr/v2/users/$name");
 
@@ -47,13 +47,27 @@ Future<String> getProfile(String name) async {
       }
     );
 
+    final Map<String, dynamic> data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      log(response.body);
+      if (!context.mounted) {
+        return "";
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProfilePage(userData: data),
+        ),
+      );
     } else if (response.statusCode == 404) {
       return ("User not found");
+    } else if (data['message'] == "The access token expired") {
+      token = "";
+      getProfile(name, context);
+      return ("");
     } else {
-      return ("Got problem with 42 API");
-    }
+    log("${data['message']} ${response.statusCode}");
+    return ("Got problem with 42 API");
+  }
 
     return ("");
   }

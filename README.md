@@ -1,6 +1,8 @@
 # swifty_companion
 
-A new Flutter project.
+The first Mobile project of 42.
+We have to do a little app with any mobile language.
+The project request to do an app that get profile of students with the 42 api/
 
 ## Getting Started
 
