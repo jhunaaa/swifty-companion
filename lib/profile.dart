@@ -20,17 +20,21 @@ class ProfilePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Image.network("${userData['image']['versions']['large']}", width: 150, height: 150,
-                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                  return Image.asset('assets/default.png', width: 150, height: 150);
-                  },
+                Image.network("${userData['image']['versions']['large']}", width: 140, height: 140,
+                  fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                    return Image.asset('assets/default.png', width: 150, height: 150, fit: BoxFit.cover,);
+                    },
                 ),
-                Text('${userData['kind']} ${userData['login']}\n'
-                    '${userData['displayname']}\n'
-                    'Email : \n${userData['email']}\n'
-                    'Correction points : ${userData['correction_point']}\n'
-                    'phone : ${userData['phone']}'
-                    ),
+                Expanded(
+                  child: Text(
+                    '${userData['kind']} ${userData['login']}\n'
+                        '${userData['displayname']}\n'
+                        'Email :\n${userData['email']}\n'
+                        'Correction points : ${userData['correction_point']}\n'
+                        'phone : ${userData['phone']}',
+                  ),
+                ),
               ],
             ),
 
