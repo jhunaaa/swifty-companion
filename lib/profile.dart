@@ -106,7 +106,7 @@ class ProfilePage extends StatelessWidget {
                       heightFactor: 1.0,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: Colors.blue.shade200,
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
