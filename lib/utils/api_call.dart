@@ -59,7 +59,7 @@ Future<String> getProfile(String name, BuildContext context) async {
         ),
       );
     } else if (response.statusCode == 404) {
-      return ("User not found");
+      return ("User $name not found");
     } else if (data['message'] == "The access token expired") {
       token = "";
       getProfile(name, context);

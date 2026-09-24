@@ -17,12 +17,23 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network("${userData['image']['link']}"),
-            Text('${userData['kind']} ${userData['login']}'),
-            Text('${userData['displayname']}'),
-            Text('Email : ${userData['email']} '),
-            Text('Correction points : ${userData['correction_point']}'),
-            Text('')
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Image.network("${userData['image']['versions']['large']}", width: 150, height: 150,
+                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                  return Image.asset('assets/default.png', width: 150, height: 150);
+                  },
+                ),
+                Text('${userData['kind']} ${userData['login']}\n'
+                    '${userData['displayname']}\n'
+                    'Email : \n${userData['email']}\n'
+                    'Correction points : ${userData['correction_point']}\n'
+                    'phone : ${userData['phone']}'
+                    ),
+              ],
+            ),
+
           ],
         ),
       ),
