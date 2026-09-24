@@ -7,6 +7,13 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double level = 0.0;
+    if (userData['cursus_users'] != null && (userData['cursus_users'] as List).isNotEmpty) {
+      var lastCursus = userData['cursus_users'].last;
+      level = double.tryParse(lastCursus['level']?.toString() ?? '') ?? 0.0;
+    }
+    int pourcent = (level.remainder(1) * 100).round();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(userData['login'] ?? 'Profil'),
@@ -76,10 +83,52 @@ class ProfilePage extends StatelessWidget {
                 )
               ],
             ),
-
+            Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: SizedBox(
+                height: 20,
+                width: double.infinity,
+              ),
+            ),
+            Container(
+              height: 20,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: FractionallySizedBox(
+                      widthFactor: pourcent / 100,
+                      heightFactor: 1.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      'Level ${level.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 }
+// test : zekaold, brownie, 42
