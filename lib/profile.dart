@@ -20,21 +20,60 @@ class ProfilePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Image.network("${userData['image']['versions']['large']}", width: 140, height: 140,
+                Image.network("${userData['image']['versions']['large']}",
+                  width: 140, height: 140,
                   fit: BoxFit.cover,
                   errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                    return Image.asset('assets/default.png', width: 150, height: 150, fit: BoxFit.cover,);
+                    return Image.asset('assets/default.png', width: 140, height: 140, fit: BoxFit.cover,);
                     },
                 ),
                 Expanded(
-                  child: Text(
-                    '${userData['kind']} ${userData['login']}\n'
-                        '${userData['displayname']}\n'
-                        'Email :\n${userData['email']}\n'
-                        'Correction points : ${userData['correction_point']}\n'
-                        'phone : ${userData['phone']}',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${userData['kind']} ${userData['login']}',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.person_search, size: 18),
+                          const SizedBox(width: 6),
+                          Expanded(child: Text('${userData['displayname']}')),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.mail, size: 18),
+                          const SizedBox(width: 6),
+                          Expanded(child: Text('${userData['email']}')),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.local_phone_rounded, size: 18),
+                          const SizedBox(width: 6),
+                          Expanded(child: Text('Phone : ${userData['phone']}')),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.school, size: 18),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              'Campus : ${userData['campus'] != null && userData['campus'].isNotEmpty ? userData['campus'][0]['name'] : 'N/A'}',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
 
