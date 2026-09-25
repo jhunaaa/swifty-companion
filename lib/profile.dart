@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   final Map<String, dynamic> userData;
 
   const ProfilePage({super.key, required this.userData});
 
   @override
-  Widget build(BuildContext context) {
-    double level = 0.0;
-    if (userData['cursus_users'] != null && (userData['cursus_users'] as List).isNotEmpty) {
-      var lastCursus = userData['cursus_users'].last;
-      level = double.tryParse(lastCursus['level']?.toString() ?? '') ?? 0.0;
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  Map<String, dynamic>? cursusSelected;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.userData['cursus_users'] != null &&
+        (widget.userData['cursus_users'] as List).isNotEmpty) {
+      cursusSelected = (widget.userData['cursus_users'] as List).last;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double level = double.tryParse(cursusSelected?['level']?.toString() ?? '') ?? 0.0;
     int pourcent = (level.remainder(1) * 100).round();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(userData['login'] ?? 'Profil'),
+        title: Text(widget.userData['login'] ?? 'Profil'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Padding(
@@ -27,7 +39,7 @@ class ProfilePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Image.network("${userData['image']['versions']['large']}",
+                Image.network("${widget.userData['image']['versions']['large']}",
                   width: 140, height: 140,
                   fit: BoxFit.cover,
                   errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
@@ -39,7 +51,7 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${userData['kind']} ${userData['login']}',
+                        '${widget.userData['kind']} ${widget.userData['login']}',
                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       const SizedBox(height: 4),
@@ -47,7 +59,7 @@ class ProfilePage extends StatelessWidget {
                         children: [
                           const Icon(Icons.person_search, size: 18),
                           const SizedBox(width: 6),
-                          Expanded(child: Text('${userData['displayname']}')),
+                          Expanded(child: Text('${widget.userData['displayname']}')),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -55,7 +67,7 @@ class ProfilePage extends StatelessWidget {
                         children: [
                           const Icon(Icons.mail, size: 18),
                           const SizedBox(width: 6),
-                          Expanded(child: Text('${userData['email']}')),
+                          Expanded(child: Text('${widget.userData['email']}')),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -63,7 +75,7 @@ class ProfilePage extends StatelessWidget {
                         children: [
                           const Icon(Icons.local_phone_rounded, size: 18),
                           const SizedBox(width: 6),
-                          Expanded(child: Text('Phone : ${userData['phone']}')),
+                          Expanded(child: Text('Phone : ${widget.userData['phone']}')),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -73,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
-                              'Campus : ${userData['campus'] != null && userData['campus'].isNotEmpty ? userData['campus'][0]['name'] : 'N/A'}',
+                              'Campus : ${widget.userData['campus'] != null && widget.userData['campus'].isNotEmpty ? widget.userData['campus'][0]['name'] : 'N/A'}',
                             ),
                           ),
                         ],
@@ -84,12 +96,29 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 0.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: SizedBox(
-                height: 20,
+                height: 10,
                 width: double.infinity,
               ),
             ),
+
+            Wrap(
+              spacing: 8.0,
+              children: <Widget>[
+                if (widget.userData['cursus_users'] != null)
+                  for (var item in (widget.userData['cursus_users'] as List))
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            cursusSelected = item;
+                          });
+                        },
+                      child: Text("${item['cursus']['name']}")
+                    ),
+              ],
+            ),
+
             Container(
               height: 20,
               width: double.infinity,
@@ -114,7 +143,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      'Level ${level.toStringAsFixed(2)}',
+                      'Level ${level.toStringAsFixed(2)} ',
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -124,7 +153,15 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: SizedBox(
+                height: 10,
+                width: double.infinity,
+              ),
+            ),
+            Text("implementing needed")
           ],
         ),
       ),
