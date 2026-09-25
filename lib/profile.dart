@@ -17,9 +17,10 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     if (widget.userData['cursus_users'] != null &&
         (widget.userData['cursus_users'] as List).isNotEmpty) {
-      cursusSelected = (widget.userData['cursus_users'] as List).last;
+      cursusSelected = (widget.userData['cursus_users'] as List).first;
     }
   }
+  var cursusIdSelected = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -112,11 +113,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   for (var item in (widget.userData['cursus_users'] as List))
                     TextButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll<Color>(Colors.blue.shade200),
+                        backgroundColor: WidgetStatePropertyAll<Color>(
+                            Colors.blue.shade200),
                       ),
                       onPressed: () {
                         setState(() {
                           cursusSelected = item;
+                          cursusIdSelected = item['cursus_id'];
                         });
                       },
                       child: Text("${item['cursus']['name']}"),
@@ -166,19 +169,23 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: double.infinity,
               ),
             ),
-            Row(
-              spacing: 8.0,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 if (widget.userData['cursus_users'] != null && cursusSelected != null)
-                  for (var item in (widget.userData['cursus_users'] as List))
-                    Text('test')
+                  for (var item in (widget.userData['projects_users'] as List))
+                    if ((item['cursus_ids'] as List?)?.firstOrNull == cursusIdSelected)
+                      if (item['status'] == "finished")
+                        Text(
+                          "${item['project']['name']} ${item['validated?'] == true ? 'validated' : 'failed'} at ${item['final_mark'] ?? 0}",
+                        )
+                      else
+                        Text("${item['project']['name']} in progression..."),
               ],
-            ),
-            // Text("implementing needed")
+            )
           ],
         ),
       ),
     );
   }
 }
-// test : zekaold, brownie, 42

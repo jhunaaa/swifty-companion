@@ -31,6 +31,9 @@ Future<String> getProfile(String name, BuildContext context) async {
   if (name.isEmpty) {
     return ("No name entered");
   } else {
+    if(name.contains('/')) {
+      return ("Char not allowed detected");
+    }
 
     if (token.isEmpty) {
       bool errorToken = await getToken();
@@ -72,12 +75,3 @@ Future<String> getProfile(String name, BuildContext context) async {
     return ("");
   }
 }
-
-// get token 42 = https://api.intra.42.fr/oauth/token
-// grant_type = client_credentials
-// client_id = UID
-// client_secret = SECRET
-// get access_token
-
-// get info by login = https://api.intra.42.fr/v2/users/$(searchValue)
-// Authorization: Bearer = retour de oauth token
