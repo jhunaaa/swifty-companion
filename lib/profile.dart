@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text(widget.userData['login'] ?? 'Profil'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,16 +105,21 @@ class _ProfilePageState extends State<ProfilePage> {
 
             Wrap(
               spacing: 8.0,
+              runSpacing: 8.0,
+              alignment: WrapAlignment.center,
               children: <Widget>[
                 if (widget.userData['cursus_users'] != null)
                   for (var item in (widget.userData['cursus_users'] as List))
                     TextButton(
-                        onPressed: () {
-                          setState(() {
-                            cursusSelected = item;
-                          });
-                        },
-                      child: Text("${item['cursus']['name']}")
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll<Color>(Colors.blue.shade200),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          cursusSelected = item;
+                        });
+                      },
+                      child: Text("${item['cursus']['name']}"),
                     ),
               ],
             ),
@@ -161,7 +166,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: double.infinity,
               ),
             ),
-            Text("implementing needed")
+            Row(
+              spacing: 8.0,
+              children: <Widget>[
+                if (widget.userData['cursus_users'] != null && cursusSelected != null)
+                  for (var item in (widget.userData['cursus_users'] as List))
+                    Text('test')
+              ],
+            ),
+            // Text("implementing needed")
           ],
         ),
       ),
