@@ -176,11 +176,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   for (var item in (widget.userData['projects_users'] as List))
                     if ((item['cursus_ids'] as List?)?.firstOrNull == cursusIdSelected)
                       if (item['status'] == "finished")
-                        Text(
-                          "${item['project']['name']} ${item['validated?'] == true ? 'validated' : 'failed'} at ${item['final_mark'] ?? 0}",
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: Text("${item['project']['name']} ${item['validated?'] == true ? 'validated' : 'failed'} at ${item['final_mark'] ?? 0}"),
+                            ),
+                            Icon(
+                                item['validated?'] == true ? Icons.check : Icons.clear_outlined,
+                                color: item['validated?'] == true ? Colors.green : Colors.red,
+                            ),
+                          ],
                         )
                       else
-                        Text("${item['project']['name']} in progression..."),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                                child: Text('${item['project']['name']} in progression'),
+                            ),
+                            Icon(Icons.pending_outlined, color: Colors.orange),
+                          ],
+                        )
               ],
             )
           ],
