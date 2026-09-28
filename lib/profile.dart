@@ -174,7 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 if (widget.userData['cursus_users'] != null && cursusSelected != null)
                   for (var item in (widget.userData['projects_users'] as List))
-                    if ((item['cursus_ids'] as List?)?.firstOrNull == cursusIdSelected)
+                    if ((item['cursus_ids'] as List?)?.firstOrNull == cursusIdSelected)...[
                       if (item['status'] == "finished")
                         Row(
                           mainAxisSize: MainAxisSize.min,
@@ -197,7 +197,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             Icon(Icons.pending_outlined, color: Colors.orange),
                           ],
-                        )
+                        ),
+                      const SizedBox(height: 8),
+                    ],
               ],
             )
           ],
